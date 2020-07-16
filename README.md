@@ -11,22 +11,50 @@ npm install vue-web-workers
 
 ### Use
 
-```shell
-yarn serve
-```
+```tsx
+...
+import VueWebWorkers from "vue-web-workers";
 
-### API
+@Component({
+  components: { VueWebWorkers }
+})
+export default DEMO extends Vue {
+  private worker: Worker | null = null;
+  private postMessage = { action: "", data: null };
 
-```
-yarn build
-```
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public onMessage(args: any) {
+    console.log(args);
+  }
 
-### Lints and fixes files
+  public sendByWorker() {
+    this.worker && this.worker.postMessage({ action: "sendByWorker", data: null });
+  }
+  public sendByPostMessage() {
+    this.postMessage = {
+      action: "sendByPostMessage",
+      data: null
+    };
+  }
 
-```
-yarn lint
+  protected render() {
+    return (
+      <div >
+        <VueWebWorkers v-model="worker" @message="onMessage" :postMessage="postMessage">
+          addEventListener('message', async (event) => {
+          setTimeout(() => postMessage(Object.assign({}, event.data, {state: true})), 1000)
+          })
+        </VueWebWorkers>
+        <button @click="sendByWorker">SendByWorker</button>
+        <button @click="sendByPostMessage">SendByPostMessage</button>
+      </div>
+    )
+  }
+
+}
+
 ```
 
 ### Customize configuration
 
-See [Configuration Reference](https://cli.vuejs.org/config/).
+See [GitHub](https://github.com/17318613875/vue-web-workers).

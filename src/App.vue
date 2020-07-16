@@ -1,12 +1,12 @@
 <template>
   <div id="app">
-    <VueWebWorkers  @message="onMessage" :postMessage="postMessage">
+    <VueWebWorkers @message="onMessage" :postMessage="postMessage">
       addEventListener('message', async (event) => {
       setTimeout(() => postMessage(Object.assign({}, event.data, {state: true})), 1000)
       })
     </VueWebWorkers>
-    <button @click="sendMsg">123</button>
-    <button @click="sendMsg1">123</button>
+    <button @click="sendByWorker">SendByWorker</button>
+    <button @click="sendByPostMessage">SendByPostMessage</button>
   </div>
 </template>
 
@@ -28,12 +28,12 @@ export default class App extends Vue {
     console.log(args);
   }
 
-  public sendMsg() {
-    this.worker && this.worker.postMessage({ action: "sendMsg", data: null });
+  public sendByWorker() {
+    this.worker && this.worker.postMessage({ action: "sendByWorker", data: null });
   }
-  public sendMsg1() {
+  public sendByPostMessage() {
     this.postMessage = {
-      action: "sendMsg1",
+      action: "sendByPostMessage",
       data: null
     };
   }
