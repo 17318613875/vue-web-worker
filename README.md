@@ -1,24 +1,32 @@
-# vue-web-worker
+# vue-web-workers
 
-## Project setup
-```
-yarn install
+A Vue component to use Web Workers in a simply way
+
+## Install
+
+```shell
+yarn add vue-web-workers
+npm install vue-web-workers
 ```
 
-### Compiles and hot-reloads for development
-```
+### Use
+
+```shell
 yarn serve
 ```
 
-### Compiles and minifies for production
+### API
+
 ```
 yarn build
 ```
 
 ### Lints and fixes files
+
 ```
 yarn lint
 ```
 
 ### Customize configuration
+
 See [Configuration Reference](https://cli.vuejs.org/config/).

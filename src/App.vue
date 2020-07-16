@@ -1,29 +1,41 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App" />
+    <VueWebWorkers  @message="onMessage" :postMessage="postMessage">
+      addEventListener('message', async (event) => {
+      setTimeout(() => postMessage(Object.assign({}, event.data, {state: true})), 1000)
+      })
+    </VueWebWorkers>
+    <button @click="sendMsg">123</button>
+    <button @click="sendMsg1">123</button>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import HelloWorld from "./components/HelloWorld.vue";
+import VueWebWorkers from "./components/VueWebWorkers.vue";
 
 @Component({
   components: {
-    HelloWorld
+    VueWebWorkers
   }
 })
-export default class App extends Vue {}
-</script>
+export default class App extends Vue {
+  private worker: Worker | null = null;
+  private postMessage = { action: "", data: null };
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public onMessage(args: any) {
+    console.log(args);
+  }
+
+  public sendMsg() {
+    this.worker && this.worker.postMessage({ action: "sendMsg", data: null });
+  }
+  public sendMsg1() {
+    this.postMessage = {
+      action: "sendMsg1",
+      data: null
+    };
+  }
 }
-</style>
+</script>
